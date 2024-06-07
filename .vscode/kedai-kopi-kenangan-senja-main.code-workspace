@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../websbootstrap"
+		}
+	],
+	"settings": {
+		"editor.fontSize": 25,
+		"liveServer.settings.port": 5501,
+		"liveServer.settings.multiRootWorkspaceName": "kedai-kopi-kenangan-senja-main"
+	}
+}
