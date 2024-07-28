@@ -20,105 +20,203 @@
     <!--  -->
 
     <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Alpine js -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- app -->
+    <script src="src/app.js" async></script>
   </head>
 
   <body>
     <!-- Navbar Start -->
-    <nav class="navbar">
+    <nav class="navbar" x-data>
       <a href="#" class="navbar-logo">Harvies<span>Coffee</span>.</a>
-
+      <!-- Nama Toko -->
+      <!-- Fitur-fitur ysng tersedia -->
       <div class="navbar-nav">
         <a href="#home">Home</a>
         <a href="#about">Tentang kami</a>
         <a href="#menu">Menu</a>
+        <a href="#products">Produk</a>
         <a href="#kontak">Kontak</a>
       </div>
 
       <div class="navbar-extra">
-        <a href="#" id="search"><i data-feather="search"></i></a>
-        <a href="#" id="shopping-cart"><i data-feather="shopping-cart"></i></a>
+        <a href="#" id="search-button"><i data-feather="search"></i></a>
+        <a href="#" id="shopping-cart-button">
+          <i data-feather="shopping-cart"></i>
+          <span
+            class="quantity-badge"
+            x-show="$store.cart.quantity"
+            x-text="$store.cart.quantity"
+          ></span>
+        </a>
         <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
       </div>
+
+      <!-- search star (fitur pencarian)-->
+      <div class="search-form">
+        <input type="search" id="search-box" placeholder="search here..." />
+        <label for="search-box"><i data-feather="search"></i></label>
+      </div>
+      <!-- search end -->
+
+      <!-- Shopping Cart (Fitur Keranjang Pembelian) -->
+      <div class="shopping-cart">
+        <template x-for="(item, index) in $store.cart.items" x-keys="index">
+          <div class="cart-item">
+            <img :src="`img/products/${item.jpg}`" :alt="item.name" />
+            <div class="item-detail">
+              <h3 x-text="item.name"></h3>
+              <div class="item-price">
+                <span x-text="rupiah(item.price)"></span> &times;
+                <button id="remove" @click="$store.cart.remove(item.id)">
+                  &minus;
+                </button>
+                <span x-text="item.quantity"></span>
+                <button id="add" @click="$store.cart.add(item)">&plus;</button>
+                &equals;
+                <span x-text="rupiah(item.total)"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+        <h4 x-show="!$store.cart.items.length" style="margin-top: 1rem">
+          Cart is empty
+        </h4>
+        <h4 x-show="$store.cart.items.length">
+          Total : <span x-text="rupiah($store.cart.total)"></span>
+        </h4>
+
+        <div class="form-container" x-show="$store.cart.items.length">
+          <form action="" id="checkoutForm">
+            <input type="hidden" name="items" x-model="JSON.stringify($store.cart.items)">
+            <input type="hidden" name="total" x-model="$store.cart.total">
+            <h5>Customer Detail</h5>
+
+            <label for="name">
+              <span>Name</span>
+              <input type="text" name="name" id="name" />
+            </label>
+
+            <label for="email">
+              <span>Email</span>
+              <input type="email" name="email" id="email" />
+            </label>
+
+            <label for="phone">
+              <span>Phone</span>
+              <input type="number" name="phone" id="phone" autocomplete="off" />
+            </label>
+
+            <button class="checkout-button disabled" type="submit" id="checkout-button">
+              Checkout
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- Shopping Cart  -->
     </nav>
     <!-- Navbar end -->
 
-    <!-- hero section (jumbotron) -->
+    <!-- hero section (jumbotron) / Halaman Awal -->
     <section class="hero" id="home">
       <main class="content">
         <h1>Mari Menikmati</h1>
-        <h1>Secangkir <span>Kopi</span</h1>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing 
-        </p>
-        <p>
-          elit. Id,
-          delectus!
-        </p>
+        <!-- dapat diubah sesuai selera -->
+        <h1>Secangkir <span>Kopi</span></h1>
+        <!-- dapat diubah sesuai selera -->
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing</p>
+        <!-- dapat diubah sesuai selera -->
+        <p>elit. Id, delectus!</p>
+        <!-- dapat diubah sesuai selera -->
         <a href="#" class="cta">Beli Sekarang</a>
+        <!-- dapat diubah sesuai selera -->
       </main>
     </section>
     <!-- hero section end -->
 
-
-    <!-- About Section -->
+    <!-- About Section / deskrips tentang toko -->
     <section id="about" class="about">
       <h2><span>Tentang</span> kami</h2>
-
+      <!-- dapat diubah sesuai selera -->
 
       <div class="row">
         <div class="about-img">
-          <img src="img/download.jpeg" alt="Tentang kami">
+          <img src="img/download.jpeg" alt="Tentang kami" />
+          <!-- gamabar dapat diubah sesuai selera -->
         </div>
         <div class="content">
           <h3>Kenapa Harvies?</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam accusantium labore culpa facere dolorum! Inventore.</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum provident atque, aspernatur dignissimos eos nam minus soluta quis. Aliquam, dolore.</p>
+          <!-- dapat diubah sesuai selera -->
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
+            <!-- dapat diubah sesuai selera -->
+            accusantium labore culpa facere dolorum! Inventore.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
+            <!-- dapat diubah sesuai selera -->
+            provident atque, aspernatur dignissimos eos nam minus soluta quis.
+            Aliquam, dolore.
+          </p>
         </div>
       </div>
     </section>
     <!-- About Section end -->
 
-    
     <!-- MENU SECTION -->
+    <!-- menamplkan menu/barang yang ada ditoko -->
     <section id="menu" class="menu">
       <h2><span>Menu</span> kami</h2>
-      <p>Lorem ipsum ffsfsd sit sddsd consectetur adipisicing elit. Corrupti repellat fuga error ad. Dolore, nihil.</p>
-
+      <!-- dapat diubah sesuai selera -->
+      <p>
+        Lorem ipsum ffsfsd sit sddsd consectetur adipisicing elit. Corrupti
+        <!-- dapat diubah sesuai selera -->
+        repellat fuga error ad. Dolore, nihil.
+      </p>
 
       <!-- gambar menu -->
       <div class="row">
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img" />
+          <!-- gambar dapat diubah sesuai selera -->
+          <h3 class="menu-card-title">- Espresso</h3>
+          <!-- dapat diubah sesuai selera -->
+          <p class="menu-card-price">IDR 20k</p>
+          <!-- dapat diubah sesuai selera -->
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img" />
           <h3 class="menu-card-title">- Espresso</h3>
           <p class="menu-card-price">IDR 20k</p>
         </div>
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img" />
           <h3 class="menu-card-title">- Espresso</h3>
           <p class="menu-card-price">IDR 20k</p>
         </div>
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img" />
           <h3 class="menu-card-title">- Espresso</h3>
           <p class="menu-card-price">IDR 20k</p>
         </div>
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img" />
           <h3 class="menu-card-title">- Espresso</h3>
           <p class="menu-card-price">IDR 20k</p>
         </div>
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img" />
           <h3 class="menu-card-title">- Espresso</h3>
           <p class="menu-card-price">IDR 20k</p>
         </div>
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
-          <h3 class="menu-card-title">- Espresso</h3>
-          <p class="menu-card-price">IDR 20k</p>
-        </div>
-        <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-img" />
           <h3 class="menu-card-title">- Espresso</h3>
           <p class="menu-card-price">IDR 20k</p>
         </div>
@@ -126,8 +224,121 @@
     </section>
     <!-- MENU SECTION END -->
 
+    <!-- Product section start -->
+    <section class="products" id="products" x-data="products">
+      <h2>Produk Unggulan <span>kami</span></h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum aliquid,
+        quod placeat maiores at quidem.
+      </p>
 
+      <div class="row" x-data="products">
+        <template x-for="(item, index) in items" :key="index">
+          <div class="product-card">
+            <div class="product-icons">
+              <a href="#" @click.prevent="$store.cart.add(item)">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#shopping-cart" />
+                </svg>
+              </a>
+              <a href="#" class="item-detail-button">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#eye" />
+                </svg>
+              </a>
+            </div>
+            <div class="product-image">
+              <img :src="`img/products/${item.jpg}`" :alt="item.name" />
+            </div>
+            <div class="product-content">
+              <h3 x-text="item.name"></h3>
 
+              <div class="product-star">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+              </div>
+              <div class="product-price">
+                <span x-text="rupiah(item.price)"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+    <!-- Product section end -->
 
     <!-- kontak section start -->
     <section id="kontak" class="kontak">
@@ -136,64 +347,83 @@
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, est.
       </p>
 
-
-
       <div class="row">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7942.247541761788!2d95.3143136935791!3d5.548662300000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304037da5316ed45%3A0x55ba2a90019f52e0!2sHarvies%20Peuniti!5e0!3m2!1sid!2sid!4v1717642554240!5m2!1sid!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map"></iframe>
-
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7942.247541761788!2d95.3143136935791!3d5.548662300000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304037da5316ed45%3A0x55ba2a90019f52e0!2sHarvies%20Peuniti!5e0!3m2!1sid!2sid!4v1717642554240!5m2!1sid!2sid"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="map"
+        ></iframe>
 
         <form action="">
           <div class="input-group">
             <i data-feather="user"></i>
-            <input type="text" placeholder="Nama">
+            <input type="text" placeholder="Nama" />
           </div>
           <div class="input-group">
             <i data-feather="mail"></i>
-            <input type="text" placeholder="Email">
+            <input type="text" placeholder="Email" />
           </div>
           <div class="input-group">
             <i data-feather="phone"></i>
-            <input type="text" placeholder="No Hp">
+            <input type="text" placeholder="No Hp" />
           </div>
           <button type="submit" class="btn">Kirim pesan</button>
         </form>
-
-
-
       </div>
     </section>
     <!-- kontak section start -->
 
-
-
-
-
-
     <!-- Footer star -->
-     <footer>
+    <footer>
       <div class="social">
         <a href="#"><i data-feather="instagram"></i></a>
         <a href="#"><i data-feather="twitter"></i></a>
         <a href="#"><i data-feather="facebook"></i></a>
       </div>
       <div class="link">
-        <a href="#home">Home</a>        
-        <a href="#about">Tentang kami</a>        
-        <a href="#menu">Menu</a>        
-        <a href="#kontak">Kontak</a>        
+        <a href="#home">Home</a>
+        <a href="#about">Tentang kami</a>
+        <a href="#menu">Menu</a>
+        <a href="#kontak">Kontak</a>
       </div>
-      
+
       <div class="credit">
         <p>Created by <a href="">Fatz007</a>. | &copy; 2024</p>
       </div>
-     </footer>
+    </footer>
     <!-- Footer end -->
 
-
-
-
-
-
+    <!-- Modal Box Item detail -->
+    <div class="modal" id="item-detail-modal">
+      <div class="modal-container">
+        <a href="#" class="close-icon"><i data-feather="x"></i></a>
+        <div class="modal-content">
+          <img src="img/products/1.jpg" alt="Produk 1" />
+          <div class="product-content">
+            <h3>Produk 1</h3>
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Perspiciatis rem, harum, minima, voluptate molestias suscipit nisi
+              doloribus quisquam repellat rerum cum impedit. Quasi, non beatae!
+            </p>
+            <div class="product-star">
+              <i data-feather="star" class="star-rating"></i>
+              <i data-feather="star" class="star-rating"></i>
+              <i data-feather="star" class="star-rating"></i>
+              <i data-feather="star"></i>
+              <i data-feather="star"></i>
+            </div>
+            <div class="product-price">IDR 30K <span>IDR 55k</span></div>
+            <a href="#"
+              ><i data-feather="shopping-cart"></i><span>add to cart</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Box Item detail -->
 
     <!-- feather -->
     <script>
